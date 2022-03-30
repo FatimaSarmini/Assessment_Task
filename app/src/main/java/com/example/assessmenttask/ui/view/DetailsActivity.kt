@@ -21,7 +21,7 @@ import retrofit2.Response
 
 class DetailsActivity : AppCompatActivity() {
 
-    public val favList = mutableListOf<Int>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
