@@ -1,9 +1,6 @@
 package com.example.assessmenttask.ui.view
 
-import android.content.Context
-import android.content.Context.MODE_PRIVATE
 import android.content.Intent
-import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,12 +15,9 @@ import com.example.assessmenttask.adapter.PostAdapter
 import com.example.assessmenttask.data.api.ApiService
 import com.example.assessmenttask.data.api.RetrofitBuilder
 import com.example.assessmenttask.data.model.Posts
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.lang.reflect.Type
 
 
 class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
@@ -39,12 +33,14 @@ class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
         super.onCreate(savedInstanceState)
         var v = inflater.inflate(R.layout.fragment_favourites_tab, container, false)
         postsList = v.findViewById<RecyclerView?>(R.id.postsList)
-       // loadPosts(postsList)
+
+
+       //  loadPosts(postsList)
         return v
     }
 
 
-    private fun loadPosts(postsList: RecyclerView) {
+    private fun loadPosts(postsList: RecyclerView ) {
         //initiate the service
         val destinationService = RetrofitBuilder.buildService(ApiService::class.java)
         val requestCall = destinationService.getPostList()
@@ -57,7 +53,7 @@ class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
                     Log.d("Response", "postlist size : ${postList.size}")
                     postsList.apply {
                         layoutManager = LinearLayoutManager(activity)
-                        adapter = PostAdapter(response.body()!!, this@FavouritesTab)
+                        adapter = PostAdapter(postList, this@FavouritesTab)
                     }
                 } else {
                     Toast.makeText(

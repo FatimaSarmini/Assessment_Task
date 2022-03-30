@@ -10,4 +10,15 @@ interface ApiService {
     @GET("posts")
     fun getPostList () : Call<List<Posts>>
 
+    @GET("comments")
+    fun  getCommentList () : Call<List<Comments>>
+
+
+    @GET("posts")
+    suspend fun get_Post_List () : List<Posts>
+
+    @GET("comments")
+    suspend fun get_Comment_List () : List<Comments>
+
+
 }

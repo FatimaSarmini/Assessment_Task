@@ -21,10 +21,6 @@ import retrofit2.Callback
 
 class PostsTab : Fragment(), PostAdapter.OnPostClickedListener {
 
-
-    private lateinit var mAdapter: PostAdapter
-    private lateinit var mPaggedAdapter: PostAdapter
-    private var mList = ArrayList<Posts>()
     private lateinit var postsList: RecyclerView
 
     override fun onCreateView(

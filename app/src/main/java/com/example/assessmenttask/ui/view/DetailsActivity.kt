@@ -1,7 +1,6 @@
 package com.example.assessmenttask.ui.view
 
 
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,20 +12,27 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assessmenttask.R
 import com.example.assessmenttask.adapter.CommentsAdapter
-import com.example.assessmenttask.data.api.CommentsService
+import com.example.assessmenttask.data.api.ApiService
 import com.example.assessmenttask.data.api.RetrofitBuilder
 import com.example.assessmenttask.data.model.Comments
-import com.google.gson.Gson
+import com.example.assessmenttask.di.AppModule
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.example.assessmenttask.ui.viewmodel.DetailsViewModel
+
 
 class DetailsActivity : AppCompatActivity() {
+
+    private val viewModel: DetailsViewModel = TODO()
+
+    private var isFavorite = false
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
+
 
         val id = getIntent().getStringExtra("id")
         val title = findViewById<TextView>(R.id.title)
@@ -40,33 +46,37 @@ class DetailsActivity : AppCompatActivity() {
         body.text = getIntent().getStringExtra("body")
 
 
-
-
-        //handle button click
+        //handle back button click
         backButton.setOnClickListener {
             //start activity intent
             startActivity(Intent(this, MainActivity::class.java))
         }
 
-        val commentsList = findViewById<RecyclerView?>(R.id.commentsList)
 
+        val commentsList = findViewById<RecyclerView?>(R.id.commentsList)
         //loading comments for this post
         loadComments(commentsList, Integer.parseInt(id))
 
+        //handle fav button click
+       favButton.setOnClickListener{
 
-//        favButton.setOnClickListener{
- //     }
+           if(isFavorite){
+               favButton.setImageResource(R.drawable.ic_baseline_favorite_white)
+           } else {
+               favButton.setImageResource(R.drawable.ic_baseline_favorite_red)
+           }
+           viewModel.updateFavorite(Integer.parseInt(id))
+       }
+
+     }
 
 
-
-
-    }
 
 
     private fun loadComments(commentsList: RecyclerView, postId: Int) {
         //initiate the service
-        val destinationService = RetrofitBuilder.buildService(CommentsService::class.java)
-        val requestCall = destinationService.getCommentsList()
+        val destinationService = RetrofitBuilder.buildService(ApiService::class.java)
+        val requestCall = destinationService.getCommentList()
         //make network call asynchronously
         requestCall.enqueue(object : Callback<List<Comments>> {
             override fun onResponse(
