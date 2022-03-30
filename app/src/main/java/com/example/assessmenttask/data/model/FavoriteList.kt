@@ -4,8 +4,8 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "favTable")
-data class FavList(
+@Entity(tableName = "favoritelist")
+data class FavoriteList(
     @ColumnInfo(name = "post_id")
     val id: Int? = 0
 )

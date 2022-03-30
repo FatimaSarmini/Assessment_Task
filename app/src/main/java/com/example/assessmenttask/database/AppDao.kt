@@ -2,11 +2,13 @@ package com.example.assessmenttask.database
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.example.assessmenttask.data.model.FavList
 import com.example.assessmenttask.data.model.Posts
 
 @Dao
 interface AppDao {
+
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    fun insertPosts(post: List<Posts>)
 
     @Query("SELECT * FROM allPostTable")
     fun getAllPosts(): LiveData<List<Posts>>

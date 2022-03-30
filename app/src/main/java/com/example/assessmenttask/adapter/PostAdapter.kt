@@ -14,16 +14,16 @@ class PostAdapter(private val postsList: List<Posts>, val clickListner: OnPostCl
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
         val view  = LayoutInflater.from(parent.context).inflate(R.layout.posts_model,parent,false)
         return ViewHolder(view)
     }
 
 
-    override fun getItemCount(): Int {
 
+    override fun getItemCount(): Int {
         return postsList.size
     }
+
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -33,10 +33,12 @@ class PostAdapter(private val postsList: List<Posts>, val clickListner: OnPostCl
         holder.initialize(postsList[position], clickListner)
     }
 
+
+
+
     class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
         var title = itemView.findViewById<TextView>(R.id.title)
         var body = itemView.findViewById<TextView>(R.id.body)
-
 
         fun initialize(item: Posts, action: OnPostClickedListener){
             title.text = item.title
@@ -47,6 +49,7 @@ class PostAdapter(private val postsList: List<Posts>, val clickListner: OnPostCl
             }
         }
     }
+
 
     interface OnPostClickedListener{
         fun onItemClick(item: Posts, position: Int)

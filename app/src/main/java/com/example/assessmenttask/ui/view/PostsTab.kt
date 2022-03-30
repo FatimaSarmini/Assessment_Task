@@ -13,7 +13,7 @@ import com.example.assessmenttask.adapter.PostAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assessmenttask.R
 import com.example.assessmenttask.data.api.RetrofitBuilder
-import com.example.assessmenttask.data.api.Service
+import com.example.assessmenttask.data.api.ApiService
 import com.example.assessmenttask.data.model.Posts
 import retrofit2.Call
 import retrofit2.Response
@@ -28,6 +28,7 @@ class PostsTab : Fragment(), PostAdapter.OnPostClickedListener {
     private lateinit var postsList: RecyclerView
 
     override fun onCreateView(
+
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -42,7 +43,7 @@ class PostsTab : Fragment(), PostAdapter.OnPostClickedListener {
 
     private fun loadPosts(postsList: RecyclerView) {
         //initiate the service
-        val destinationService = RetrofitBuilder.buildService(Service::class.java)
+        val destinationService = RetrofitBuilder.buildService(ApiService::class.java)
         val requestCall = destinationService.getPostList()
         //make network call asynchronously
         requestCall.enqueue(object : Callback<List<Posts>> {

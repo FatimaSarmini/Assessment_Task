@@ -1,6 +1,7 @@
 package com.example.assessmenttask.ui.view
 
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +16,12 @@ import com.example.assessmenttask.adapter.CommentsAdapter
 import com.example.assessmenttask.data.api.CommentsService
 import com.example.assessmenttask.data.api.RetrofitBuilder
 import com.example.assessmenttask.data.model.Comments
+import com.google.gson.Gson
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
 class DetailsActivity : AppCompatActivity() {
-
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,20 +55,7 @@ class DetailsActivity : AppCompatActivity() {
 
 
 //        favButton.setOnClickListener{
-////            if(favList.find { it == Integer.parseInt(id)}){
-////                favButton.setImageResource(R.drawable.ic_baseline_favorite_red)
-////                favList.add(Integer.parseInt(id))
-////                println("size "+favList.size)
-////            }
-////            else {
-////                favButton.setImageResource(R.drawable.ic_baseline_favorite_white)
-////                var x = favList.indexOf(Integer.parseInt(id))
-////                favList.removeAt(x)
-////                println("size "+favList.size)
-////            }
-//
-//
-//        }
+ //     }
 
 
 
@@ -81,16 +69,19 @@ class DetailsActivity : AppCompatActivity() {
         val requestCall = destinationService.getCommentsList()
         //make network call asynchronously
         requestCall.enqueue(object : Callback<List<Comments>> {
-            override fun onResponse(call: Call<List<Comments>>, response: Response<List<Comments>>) {
+            override fun onResponse(
+                call: Call<List<Comments>>,
+                response: Response<List<Comments>>
+            ) {
                 Log.d("Response", "onResponse: ${response.body()}")
                 if (response.isSuccessful) {
                     val commentList = response.body()!!
                     Log.d("Response", "commentList size : ${commentList.size}")
                     commentsList.apply {
                         layoutManager = LinearLayoutManager(this@DetailsActivity)
-                        adapter = CommentsAdapter(response.body()!!.filter { it.postId == postId} )
-                    }}
-                else {
+                        adapter = CommentsAdapter(response.body()!!.filter { it.postId == postId })
+                    }
+                } else {
                     Toast.makeText(
                         this@DetailsActivity,
                         "Something went wrong ${response.message()}",
@@ -100,10 +91,12 @@ class DetailsActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<List<Comments>>, t: Throwable) {
-                Toast.makeText(this@DetailsActivity, "Something went wrong $t", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DetailsActivity, "Something went wrong $t", Toast.LENGTH_SHORT)
+                    .show()
             }
         })
     }
+
 
 }
 

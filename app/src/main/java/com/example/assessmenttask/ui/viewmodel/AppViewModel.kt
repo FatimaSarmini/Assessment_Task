@@ -1,21 +1,17 @@
 package com.example.assessmenttask.ui.viewmodel
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.room.RoomDatabase
+import androidx.lifecycle.ViewModel
 import com.example.assessmenttask.data.model.Posts
-import com.example.assessmenttask.database.AppDatabase.Companion.getDatabase
-import com.example.assessmenttask.database.AppRepository
+import com.example.assessmenttask.database.AppDatabase
 
-class AppViewModel(application: Application): AndroidViewModel(application) {
+class AppViewModel(var application:Application): ViewModel() {
 
-    private val repository: AppRepository
-    private var readAll: LiveData<List<Posts>>
+        private val db:AppDatabase = AppDatabase.getDatabase(application)
+        internal val allPosts : LiveData<List<Posts>> = db.appDao().getAllPosts()
 
-    init {
-        val appDB = RoomDatabase.getDatabase(application).appDao()
-        repository = AppRepository(appDB)
-        readAll =repository.getAllPosts()
+        fun insert(post:List<Posts>){
+            db.appDao().insertPosts(post)
+        }
     }
-}

@@ -1,23 +1,30 @@
 package com.example.assessmenttask.ui.view
 
+import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.assessmenttask.R
 import com.example.assessmenttask.adapter.PostAdapter
+import com.example.assessmenttask.data.api.ApiService
 import com.example.assessmenttask.data.api.RetrofitBuilder
-import com.example.assessmenttask.data.api.Service
 import com.example.assessmenttask.data.model.Posts
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.reflect.Type
+
 
 class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
 
@@ -32,14 +39,14 @@ class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
         super.onCreate(savedInstanceState)
         var v = inflater.inflate(R.layout.fragment_favourites_tab, container, false)
         postsList = v.findViewById<RecyclerView?>(R.id.postsList)
-        loadPosts(postsList)
+       // loadPosts(postsList)
         return v
     }
 
 
     private fun loadPosts(postsList: RecyclerView) {
         //initiate the service
-        val destinationService = RetrofitBuilder.buildService(Service::class.java)
+        val destinationService = RetrofitBuilder.buildService(ApiService::class.java)
         val requestCall = destinationService.getPostList()
         //make network call asynchronously
         requestCall.enqueue(object : Callback<List<Posts>> {
@@ -75,5 +82,7 @@ class FavouritesTab : Fragment() , PostAdapter.OnPostClickedListener {
         intent.putExtra("body", item.body)
         startActivity(intent)
     }
+   }
 
-}
+
+
