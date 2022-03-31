@@ -15,7 +15,7 @@ class AppRepository @Inject constructor(
     private val dao = db.appDao()
 
     suspend fun getComments(): List<Comments> {
-        return api.get_Comment_List()
+        return api.getCommentList()
     }
 
     suspend fun getPosts(): List<Posts> {
@@ -27,7 +27,7 @@ class AppRepository @Inject constructor(
     }
 
     private suspend fun remotePosts(): List<Posts> {
-        val posts = api.get_Post_List()
+        val posts = api.getPostList()
         val favoritePosts = dao.getFavorites()
         val newPosts = posts.map { serverPost ->
             val isFavorite = favoritePosts.any { favoritePost ->

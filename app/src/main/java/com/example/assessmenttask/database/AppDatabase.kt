@@ -6,6 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.example.assessmenttask.data.model.Posts
 
+
 @Database(entities = [Posts::class], version = 1, exportSchema = false)
 
 abstract class AppDatabase: RoomDatabase() {

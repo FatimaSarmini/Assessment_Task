@@ -1,57 +1,51 @@
 package com.example.assessmenttask.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.example.assessmenttask.R
 import com.example.assessmenttask.data.model.Posts
+import com.example.assessmenttask.databinding.PostsModelBinding
 
-
-class PostAdapter(private val postsList: List<Posts>, val clickListner: OnPostClickedListener ) :RecyclerView.Adapter<PostAdapter.ViewHolder>()  {
-
+class PostAdapter(
+    private val onItemClick: (Posts) -> Unit
+) : ListAdapter<Posts, PostAdapter.ViewHolder>(PostComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view  = LayoutInflater.from(parent.context).inflate(R.layout.posts_model,parent,false)
-        return ViewHolder(view)
+        val binding = PostsModelBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding,onItemClick = { position ->
+            val post = getItem(position)
+            if (post != null) {
+                onItemClick(post)
+            }
+        })
     }
-
-
-
-    override fun getItemCount(): Int {
-        return postsList.size
-    }
-
-
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-//        holder.title.text = postsList[position].title
-//        holder.body.text = postsList[position].body
-
-        holder.initialize(postsList[position], clickListner)
-    }
-
-
-
-
-    class ViewHolder(itemView : View) : RecyclerView.ViewHolder(itemView) {
-        var title = itemView.findViewById<TextView>(R.id.title)
-        var body = itemView.findViewById<TextView>(R.id.body)
-
-        fun initialize(item: Posts, action: OnPostClickedListener){
-            title.text = item.title
-            body.text = item.body
-
-            itemView.setOnClickListener{
-                action.onItemClick(item, bindingAdapterPosition)
-            }
+        val currentItem = getItem(position)
+        if (currentItem != null) {
+            holder.bind(currentItem)
         }
     }
 
+    inner class ViewHolder(
+        private val binding: PostsModelBinding,
+        private val onItemClick: (Int) -> Unit
+    ) : RecyclerView.ViewHolder(binding.root) {
 
-    interface OnPostClickedListener{
-        fun onItemClick(item: Posts, position: Int)
+        init {
+            binding.apply {
+                root.setOnClickListener {
+                    val position = bindingAdapterPosition
+                    onItemClick(position)
+                }
+            }
+        }
+
+        fun bind(item: Posts) {
+            binding.title.text = item.title
+            binding.body.text = item.body
+        }
     }
 }
