@@ -1,4 +1,4 @@
-package com.example.assessmenttask.data.api
+package com.example.assessmenttask
 
 
 import android.app.Application

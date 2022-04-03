@@ -1,6 +1,5 @@
 package com.example.assessmenttask.ui.view
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -28,7 +27,6 @@ class PostsTab : Fragment(R.layout.fragment_posts_tab) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         bindView(view)
         postAdapter = PostAdapter(onItemClick = { posts ->
             onPostClick(posts)

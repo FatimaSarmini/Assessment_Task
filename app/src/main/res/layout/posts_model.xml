@@ -23,7 +23,6 @@
         android:layout_marginRight="5dp">
 
 
-
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"

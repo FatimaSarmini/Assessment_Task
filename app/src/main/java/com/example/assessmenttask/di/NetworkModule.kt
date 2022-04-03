@@ -2,7 +2,7 @@ package com.example.assessmenttask.di
 
 import android.content.Context
 import com.example.assessmenttask.data.api.ApiService
-import com.example.assessmenttask.data.api.RetrofitBuilder
+import com.example.assessmenttask.App
 import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
@@ -33,13 +33,13 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideApplication(@ApplicationContext app: Context): RetrofitBuilder {
-        return app as RetrofitBuilder
+    fun provideApplication(@ApplicationContext app: Context): App {
+        return app as App
     }
 
     @Provides
     @Singleton
-    fun provideContext(application: RetrofitBuilder): Context {
+    fun provideContext(application: App): Context {
         return application.applicationContext
     }
 
